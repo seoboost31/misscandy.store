@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Miss Candy — Small-Batch Sweets &amp; Confections</title>
+<meta name="description" content="Small-batch candy, hand-poured lollipops, and gourmet sweets made with real ingredients and a little too much color.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Quicksand:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bubblegum:#E85B93;
+    --cherry:#D93A3A;
+    --lemon:#F3B93B;
+    --mint:#3FA687;
+    --cream:#FFF6E9;
+    --paper:#FFF6E9;
+    --ink:#2B2130;
+    --ink-60: rgba(43,33,48,0.62);
+    --ink-30: rgba(43,33,48,0.24);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Quicksand', sans-serif;
+    font-weight:400;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.display{font-family:'Baloo 2', sans-serif; font-weight:700;}
+  .mono{
+    font-family:'Space Mono', monospace;
+    text-transform:uppercase;
+    letter-spacing:0.15em;
+    font-size:0.7rem;
+  }
+  a{color:inherit; text-decoration:none;}
+  img{max-width:100%; display:block;}
+  .wrap{max-width:1180px; margin:0 auto; padding:0 clamp(20px,5vw,60px);}
+  .reveal{opacity:0; transform:translateY(22px); transition:opacity .7s ease, transform .7s ease;}
+  .reveal.in{opacity:1; transform:translateY(0);}
+
+  /* ---------- signature: swirl-stripe rule ---------- */
+  .swirl-rule{
+    width:100%; height:18px;
+    background-image:repeating-linear-gradient(-45deg, var(--bubblegum), var(--bubblegum) 12px, var(--cream) 12px, var(--cream) 24px);
+  }
+
+  /* ---------- header ---------- */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:50;
+    background:rgba(255,246,233,0.94);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid rgba(43,33,48,0.1);
+  }
+  nav{display:flex; align-items:center; justify-content:space-between; padding:16px clamp(20px,5vw,60px);}
+  .logo{display:flex; align-items:center; gap:10px; font-family:'Baloo 2',sans-serif; font-size:1.25rem;}
+  .logo-mark{width:32px; height:32px;}
+  .logo em{font-style:normal; color:var(--bubblegum);}
+  .nav-links{display:flex; gap:26px; align-items:center;}
+  .nav-links a{font-family:'Space Mono', monospace; font-size:0.65rem; text-transform:uppercase; letter-spacing:0.1em; position:relative; padding-bottom:3px;}
+  .nav-links a::after{content:''; position:absolute; left:0; bottom:0; width:0; height:1px; background:var(--cherry); transition:width .3s ease;}
+  .nav-links a:hover::after{width:100%;}
+  .cart-pill{
+    background:var(--bubblegum); color:var(--cream);
+    padding:9px 18px; font-family:'Space Mono',monospace; font-size:0.64rem;
+    text-transform:uppercase; letter-spacing:0.1em; border-radius:20px;
+  }
+  .nav-toggle{display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer;}
+  .nav-toggle span{width:22px; height:1.5px; background:var(--ink);}
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative; min-height:94vh;
+    display:grid; grid-template-columns:1.05fr 0.95fr; align-items:center; gap:40px;
+    padding-top:110px;
+    background:var(--paper);
+  }
+  .hero-copy .mono{color:var(--cherry); display:flex; align-items:center; gap:12px; margin-bottom:22px;}
+  .hero-copy .mono::before{content:''; width:28px; height:1px; background:var(--cherry);}
+  .hero h1{font-size:clamp(2.8rem,5.6vw,4.8rem); line-height:1.02; color:var(--ink);}
+  .hero h1 span{color:var(--bubblegum);}
+  .hero-sub{margin-top:26px; max-width:440px; font-size:1.06rem; line-height:1.8; color:var(--ink-60);}
+  .hero-cta{margin-top:38px; display:flex; gap:16px; flex-wrap:wrap;}
+  .btn{
+    display:inline-block; padding:15px 28px; border-radius:30px;
+    font-family:'Space Mono',monospace; font-size:0.7rem;
+    text-transform:uppercase; letter-spacing:0.12em;
+    background:var(--bubblegum); color:var(--cream); border:1px solid var(--bubblegum);
+    transition:background .3s ease, color .3s ease;
+  }
+  .btn:hover{background:transparent; color:var(--bubblegum);}
+  .btn-line{background:transparent; color:var(--ink); border:1px solid var(--ink-30);}
+  .btn-line:hover{background:var(--ink); color:var(--cream); border-color:var(--ink);}
+
+  .hero-visual{
+    position:relative; aspect-ratio:1/1;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .hero-visual svg{width:82%; height:82%;}
+  .ring{
+    position:absolute; inset:6%; border-radius:50%;
+    border:2px dashed rgba(43,33,48,0.15);
+    animation:spin 50s linear infinite;
+  }
+  @keyframes spin{to{transform:rotate(360deg);}}
+
+  /* ---------- section shell ---------- */
+  section{padding:110px 0;}
+  .section-head{display:flex; justify-content:space-between; align-items:flex-end; gap:36px; margin-bottom:56px; flex-wrap:wrap;}
+  .section-head .mono{color:var(--bubblegum); display:block; margin-bottom:12px;}
+  .section-head h2{font-size:clamp(2.1rem,4.4vw,3.1rem); max-width:560px;}
+  .section-head p{max-width:320px; color:var(--ink-60); line-height:1.7; font-size:0.94rem;}
+
+  /* ---------- shop grid ---------- */
+  .shop{background:var(--paper);}
+  .p-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:30px;}
+  .p-card{position:relative;}
+  .p-thumb{
+    aspect-ratio:4/5; background:var(--ink);
+    display:flex; align-items:center; justify-content:center;
+    position:relative; overflow:hidden; margin-bottom:16px; border-radius:16px;
+  }
+  .p-thumb svg{width:52%; transition:transform .5s ease;}
+  .p-card:hover .p-thumb svg{transform:scale(1.08) rotate(-4deg);}
+  .p-badge{
+    position:absolute; top:14px; left:14px;
+    background:var(--lemon); color:var(--ink);
+    font-family:'Space Mono',monospace; font-size:0.6rem;
+    text-transform:uppercase; letter-spacing:0.1em;
+    padding:5px 10px; border-radius:12px;
+  }
+  .p-title{font-family:'Baloo 2',sans-serif; font-size:1.2rem; margin-bottom:4px;}
+  .p-desc{font-size:0.86rem; color:var(--ink-60); line-height:1.6; margin-bottom:8px;}
+  .p-price{font-family:'Space Mono',monospace; font-size:0.85rem; color:var(--cherry);}
+
+  /* ---------- story ---------- */
+  .story{background:var(--bubblegum); color:var(--cream);}
+  .story-grid{display:grid; grid-template-columns:0.9fr 1.1fr; gap:70px; align-items:center;}
+  .story .mono{color:var(--ink);}
+  .story h2{font-size:clamp(2.1rem,4.4vw,3.1rem); margin:18px 0 22px;}
+  .story p{color:rgba(255,246,233,0.88); line-height:1.85; font-size:1.02rem; margin-bottom:18px;}
+  .story-figure{background:#D34783; padding:34px; border-radius:20px;}
+  .story-quote{font-family:'Baloo 2',sans-serif; font-size:1.4rem; line-height:1.35;}
+  .story-quote span{display:block; margin-top:16px; font-family:'Space Mono',monospace; font-size:0.64rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--lemon);}
+
+  /* ---------- how it's made ---------- */
+  .how{background:var(--cream);}
+  .how-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px;}
+  .how-card{background:#fff; padding:38px 30px; border-radius:16px; box-shadow:0 2px 0 rgba(43,33,48,0.06);}
+  .how-num{font-family:'Baloo 2',sans-serif; font-size:1.3rem; color:var(--mint); margin-bottom:16px;}
+  .how-card h3{font-size:1.15rem; margin-bottom:10px;}
+  .how-card p{font-size:0.9rem; color:var(--ink-60); line-height:1.7;}
+
+  /* ---------- band ---------- */
+  .band{background:var(--mint); color:var(--cream); padding:90px 0; text-align:center;}
+  .band h2{font-size:clamp(1.7rem,4vw,2.5rem); max-width:740px; margin:0 auto 20px; font-weight:600;}
+  .band .mono{color:var(--lemon); display:block; margin-top:16px;}
+
+  /* ---------- newsletter ---------- */
+  .signup{background:var(--paper);}
+  .signup-box{
+    background:var(--ink); color:var(--cream);
+    padding:clamp(44px,7vw,80px); border-radius:24px;
+    display:grid; grid-template-columns:1.2fr 1fr; gap:44px; align-items:center;
+  }
+  .signup-box h2{font-size:clamp(1.9rem,4.2vw,2.6rem); margin-bottom:14px;}
+  .signup-box p{color:rgba(255,246,233,0.7); line-height:1.7; max-width:400px;}
+  .signup-form{display:flex; gap:0; border-bottom:1px solid rgba(255,246,233,0.35); padding-bottom:12px;}
+  .signup-form input{
+    flex:1; background:transparent; border:none; outline:none;
+    color:var(--cream); font-family:'Quicksand',sans-serif; font-size:1rem;
+  }
+  .signup-form input::placeholder{color:rgba(255,246,233,0.42);}
+  .signup-form button{
+    background:none; border:none; color:var(--lemon);
+    font-family:'Space Mono',monospace; font-size:0.7rem; text-transform:uppercase; letter-spacing:0.12em;
+    cursor:pointer; padding-left:16px;
+  }
+
+  /* ---------- footer ---------- */
+  footer{background:var(--ink); color:rgba(255,246,233,0.6); padding:64px 0 26px;}
+  .foot-grid{display:grid; grid-template-columns:1.3fr 1fr 1fr 1fr; gap:36px; padding-bottom:44px;}
+  .foot-brand .logo{color:var(--cream); margin-bottom:14px;}
+  .foot-brand p{font-size:0.85rem; line-height:1.7; max-width:270px;}
+  .foot-col .mono{color:var(--lemon); display:block; margin-bottom:16px;}
+  .foot-col a{display:block; font-size:0.85rem; margin-bottom:9px; color:rgba(255,246,233,0.6);}
+  .foot-col a:hover{color:var(--cream);}
+  .foot-bottom{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; padding-top:22px; border-top:1px solid rgba(255,246,233,0.14); font-size:0.76rem;}
+
+  @media (max-width:920px){
+    .nav-links{display:none;}
+    .nav-toggle{display:flex;}
+    .hero{grid-template-columns:1fr;}
+    .hero-visual{order:-1; max-width:280px; margin:0 auto;}
+    .p-grid{grid-template-columns:repeat(2,1fr);}
+    .story-grid{grid-template-columns:1fr;}
+    .how-grid{grid-template-columns:1fr;}
+    .signup-box{grid-template-columns:1fr;}
+    .foot-grid{grid-template-columns:1fr 1fr;}
+  }
+  @media (max-width:560px){
+    .p-grid{grid-template-columns:1fr;}
+    .foot-grid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <div class="logo">
+      <svg class="logo-mark" viewBox="0 0 40 40" fill="none">
+        <circle cx="20" cy="20" r="17" fill="#E85B93"/>
+        <path d="M20 8 C24 8 27 11 27 15 C27 19 24 20 20 20 C16 20 13 19 13 15 C13 11 16 8 20 8Z" fill="#FFF6E9"/>
+        <rect x="19" y="20" width="2" height="12" fill="#FFF6E9"/>
+      </svg>
+      miss <em>candy</em>
+    </div>
+    <div class="nav-links">
+      <a href="#shop">Shop</a>
+      <a href="#story">Our Story</a>
+      <a href="#how">How It's Made</a>
+      <a href="#signup">Sweet Mail</a>
+      <a href="#" class="cart-pill">Cart (0)</a>
+    </div>
+    <button class="nav-toggle" aria-label="menu"><span></span><span></span><span></span></button>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="wrap" style="display:contents;">
+    <div class="hero-copy">
+      <span class="mono">Small batch, hand-poured</span>
+      <h1>Candy the way it<br>used to <span>taste.</span></h1>
+      <p class="hero-sub">Real fruit, real sugar, and a stove instead of a factory line. We hand-pour lollipops, cook small batches of gummies, and pack every order like it's a gift — because it usually is one.</p>
+      <div class="hero-cta">
+        <a href="#shop" class="btn">Shop the Collection</a>
+        <a href="#story" class="btn btn-line">Our Story</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="ring"></div>
+      <svg viewBox="0 0 240 240" fill="none">
+        <circle cx="120" cy="90" r="60" fill="#F3B93B"/>
+        <path d="M120 30 A60 60 0 0 1 180 90" stroke="#E85B93" stroke-width="10" fill="none" stroke-linecap="round"/>
+        <path d="M120 150 A60 60 0 0 1 60 90" stroke="#3FA687" stroke-width="10" fill="none" stroke-linecap="round"/>
+        <rect x="115" y="150" width="10" height="70" rx="5" fill="#2B2130"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<div class="swirl-rule"></div>
+
+<section class="shop" id="shop">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <span class="mono">The collection</span>
+        <h2>Small batches, gone fast</h2>
+      </div>
+      <p>Everything's cooked in-house — when a batch sells out, it's back on the stove before it's back on the shelf.</p>
+    </div>
+    <div class="p-grid reveal">
+      <div class="p-card">
+        <div class="p-thumb">
+          <span class="p-badge">Bestseller</span>
+          <svg viewBox="0 0 100 100" fill="none"><circle cx="50" cy="38" r="26" fill="#E85B93"/><rect x="46" y="60" width="8" height="34" rx="4" fill="#FFF6E9"/></svg>
+        </div>
+        <div class="p-title">Hand-Poured Lollipops</div>
+        <div class="p-desc">Six-flavor set, poured to order in small molds.</div>
+        <div class="p-price">$14.00</div>
+      </div>
+      <div class="p-card">
+        <div class="p-thumb">
+          <svg viewBox="0 0 100 100" fill="none"><circle cx="34" cy="40" r="14" fill="#F3B93B"/><circle cx="60" cy="55" r="14" fill="#3FA687"/><circle cx="50" cy="30" r="10" fill="#D93A3A"/></svg>
+        </div>
+        <div class="p-title">Fruit Gummy Mix</div>
+        <div class="p-desc">Real fruit puree gummies, softer and less sweet than the usual bag.</div>
+        <div class="p-price">$9.00</div>
+      </div>
+      <div class="p-card">
+        <div class="p-thumb">
+          <span class="p-badge">New</span>
+          <svg viewBox="0 0 100 100" fill="none"><rect x="30" y="30" width="40" height="40" rx="6" fill="#2B2130" opacity="0.85"/></svg>
+        </div>
+        <div class="p-title">Dark Chocolate Bark</div>
+        <div class="p-desc">70% cacao bark with toasted almonds and sea salt.</div>
+        <div class="p-price">$12.00</div>
+      </div>
+      <div class="p-card">
+        <div class="p-thumb">
+          <svg viewBox="0 0 100 100" fill="none"><path d="M30 50 Q50 20 70 50 Q50 80 30 50Z" fill="#D93A3A"/></svg>
+        </div>
+        <div class="p-title">Sour Belt Box</div>
+        <div class="p-desc">Watermelon, blue raz, and green apple — sour up front, sweet after.</div>
+        <div class="p-price">$8.00</div>
+      </div>
+      <div class="p-card">
+        <div class="p-thumb">
+          <svg viewBox="0 0 100 100" fill="none"><rect x="26" y="26" width="48" height="48" rx="8" fill="#F3B93B" opacity="0.85"/></svg>
+        </div>
+        <div class="p-title">Caramel Squares</div>
+        <div class="p-desc">Slow-cooked butter caramel, cut and wrapped by hand.</div>
+        <div class="p-price">$11.00</div>
+      </div>
+      <div class="p-card">
+        <div class="p-thumb">
+          <span class="p-badge">Gift set</span>
+          <svg viewBox="0 0 100 100" fill="none"><rect x="24" y="30" width="52" height="40" rx="4" fill="#3FA687" opacity="0.85"/><rect x="24" y="30" width="52" height="8" fill="#FFF6E9" opacity="0.6"/></svg>
+        </div>
+        <div class="p-title">Sweet Sampler Box</div>
+        <div class="p-desc">A little of everything — lollipop, gummies, chocolate, and caramel.</div>
+        <div class="p-price">$34.00</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="story" id="story">
+  <div class="wrap story-grid">
+    <div class="reveal">
+      <span class="mono">Since 2015</span>
+      <h2>Started as a birthday party favor</h2>
+      <p>Miss Candy started when a kitchen-table batch of lollipops for a birthday party got passed around the neighborhood — and then requested again the next month, and the month after that.</p>
+      <p>We still cook everything the same way: small batches, real ingredients, and a taste test before anything gets packaged. If a batch doesn't taste right, it doesn't ship.</p>
+      <a href="#shop" class="btn btn-line" style="color:var(--cream); border-color:rgba(255,246,233,0.4);">Shop the Collection</a>
+    </div>
+    <div class="story-figure reveal">
+      <div class="story-quote">"If I wouldn't hand it to a kid at my own party, it doesn't go in the box."<span>— Kitchen rule, since day one</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="how" id="how">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <span class="mono">How it's made</span>
+        <h2>Three steps, every batch</h2>
+      </div>
+      <p>Nothing here is mass-produced — every step still happens by hand.</p>
+    </div>
+    <div class="how-grid reveal">
+      <div class="how-card">
+        <div class="how-num">i.</div>
+        <h3>Cooked in small batches</h3>
+        <p>Sugar work is done in pots small enough to watch closely — no industrial cookers, no shortcuts on timing.</p>
+      </div>
+      <div class="how-card">
+        <div class="how-num">ii.</div>
+        <h3>Poured &amp; shaped by hand</h3>
+        <p>Lollipops are poured into molds one at a time; gummies are cut and dusted the same way.</p>
+      </div>
+      <div class="how-card">
+        <div class="how-num">iii.</div>
+        <h3>Tasted before it ships</h3>
+        <p>Every batch gets tasted by someone in the kitchen before it's packaged — no exceptions.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap reveal">
+    <h2>"Ordered the sampler box for my daughter's birthday and it disappeared in a day. Already reordered twice."</h2>
+    <span class="mono">— L. Bennett, verified buyer</span>
+  </div>
+</section>
+
+<section class="signup" id="signup">
+  <div class="wrap">
+    <div class="signup-box reveal">
+      <div>
+        <h2>Get Sweet Mail</h2>
+        <p>New flavors, seasonal boxes, and restock alerts — one short email, never more than weekly.</p>
+      </div>
+      <form class="signup-form" onsubmit="return false;">
+        <input type="email" placeholder="you@example.com" required>
+        <button type="submit">Join →</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="logo">miss <em style="font-style:normal;color:var(--lemon);">candy</em></div>
+        <p>Small-batch candy and confections, hand-made with real ingredients since 2015.</p>
+      </div>
+      <div class="foot-col">
+        <span class="mono">Shop</span>
+        <a href="#shop">Lollipops</a>
+        <a href="#shop">Gummies</a>
+        <a href="#shop">Chocolate</a>
+        <a href="#shop">Gift sets</a>
+      </div>
+      <div class="foot-col">
+        <span class="mono">About</span>
+        <a href="#story">Our story</a>
+        <a href="#how">How it's made</a>
+        <a href="#signup">Sweet Mail</a>
+      </div>
+      <div class="foot-col">
+        <span class="mono">Help</span>
+        <a href="#">Ingredients</a>
+        <a href="#">Shipping</a>
+        <a href="#">Contact</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Miss Candy. Small-batch sweets.</span>
+      <span>misscandy.store</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  },{threshold:0.15});
+  revealEls.forEach(el=>io.observe(el));
+
+  const toggle = document.querySelector('.nav-toggle');
+  const links = document.querySelector('.nav-links');
+  toggle?.addEventListener('click', ()=>{
+    const open = links.style.display === 'flex';
+    links.style.display = open ? 'none' : 'flex';
+    links.style.cssText += open ? '' : 'position:fixed;top:64px;left:0;right:0;background:#FFF6E9;flex-direction:column;padding:24px;gap:18px;border-bottom:1px solid rgba(43,33,48,0.1);';
+  });
+</script>
+
+</body>
+</html>
